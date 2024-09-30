@@ -1,0 +1,51 @@
+version: '3'
+services:
+  service-registry:
+    image: service-registry:latest
+    container_name: service-registry
+    ports:
+      - "8761:8761"
+    networks:
+      - springboot-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8761/actuator/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 2
+
+  customer-service:
+    image: customer-service:latest
+    container_name: customer-service
+    ports:
+      - "8084:8084"
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://service-registry:8761/eureka/
+    depends_on:
+      service-registry:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8084/api/v1/actuator/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 6
+    networks:
+      - springboot-network
+
+  api-gateway:
+    image: api-gateway:latest
+    container_name: api-gateway
+    ports:
+      - "8080:8080"
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://service-registry:8761/eureka/
+    networks:
+      - springboot-network
+    depends_on:
+      service-registry:
+        condition: service_healthy
+      customer-service:
+        condition: service_healthy
+
+networks:
+  springboot-network:
+    driver: bridge
