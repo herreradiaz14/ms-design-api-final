@@ -5,4 +5,6 @@ import com.msa.customer.service.domain.models.Customer;
 public interface CustomerOPort {
 
     Customer save(Customer customer);
+
+    Customer getCustomer(Integer customerId);
 }

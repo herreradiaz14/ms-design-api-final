@@ -11,6 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Objects;
+
 @RestController
 @CrossOrigin
 @RequiredArgsConstructor
@@ -28,5 +30,21 @@ public class CustomerController implements CustomersApi {
         );
 
         return new ResponseEntity<>(customerSavedDto, HttpStatus.CREATED);
+    }
+
+    @Override
+    public ResponseEntity<CustomerDto> getCustomer(String xCmClientRequestId, String xCmClientUserAgent, Integer id) {
+
+        Customer customerFind = customerIPort.getCustomer(id);
+
+        if(Objects.isNull(customerFind)){
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+
+        CustomerDto customerSavedDto = customerDtoMapper.toCustomerDto(
+                customerFind
+        );
+
+        return new ResponseEntity<>(customerSavedDto, HttpStatus.OK);
     }
 }

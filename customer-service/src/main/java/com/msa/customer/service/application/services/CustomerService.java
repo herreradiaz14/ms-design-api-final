@@ -16,4 +16,9 @@ public class CustomerService implements CustomerIPort {
     public Customer createCustomer(Customer customer) {
         return customerOPort.save(customer);
     }
+
+    @Override
+    public Customer getCustomer(Integer customerId) {
+        return customerOPort.getCustomer(customerId);
+    }
 }

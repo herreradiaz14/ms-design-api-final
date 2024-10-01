@@ -65,11 +65,12 @@ paths:
               schema:
                 $ref: '#/components/schemas/CustomerDto'
         '400':
-          description: The server could not understand the request because of incorrect syntax
+          description: the server could not understand the request because of incorrect syntax
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+  /customers/{id}:
     get:
       tags:
         - customer
@@ -89,6 +90,12 @@ paths:
           required: true
           schema:
             type: string
+        - name: id
+          in: path
+          description: client ID to search for
+          required: true
+          schema:
+            type: integer
       responses:
         '200':
           description: client was successfully obtained
@@ -99,7 +106,7 @@ paths:
         '204':
           description: the client was not found in the records
         '400':
-          description: The server could not understand the request because of incorrect syntax
+          description: the server could not understand the request because of incorrect syntax
           content:
             application/json:
               schema:
