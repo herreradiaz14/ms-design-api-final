@@ -22,8 +22,9 @@ public class CustomerController implements CustomersApi {
     private final CustomerDtoMapper customerDtoMapper;
 
     @Override
-    public ResponseEntity<CustomerDto> createCustomer(String xCmClientRequestId, String xCmClientUserAgent, CustomerDto customerDto) {
+    public ResponseEntity<CustomerDto> createCustomer(String xSwClientRequestId, String xSwClientUserAgent, String xSwCreateUser, CustomerDto customerDto) {
         Customer customer = customerDtoMapper.toCustomer(customerDto);
+        customer.setCreateUser(xSwCreateUser);
 
         CustomerDto customerSavedDto = customerDtoMapper.toCustomerDto(
                 customerIPort.createCustomer(customer)
