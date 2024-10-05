@@ -9,6 +9,14 @@ spring:
       locator:
         enabled: true
       routes:
+        - id: customer-middleend-route
+          uri: lb://CUSTOMER-MIDDLEEND
+          predicates:
+            - Path= /api/v1/customers/**
+        - id: account-middleend-route
+          uri: lb://ACCOUNT-MIDDLEEND
+          predicates:
+            - Path= /api/v1/accounts/**
         - id: movement-middleend-route
           uri: lb://MOVEMENT-MIDDLEEND
           predicates:

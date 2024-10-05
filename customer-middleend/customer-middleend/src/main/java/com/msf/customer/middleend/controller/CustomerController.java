@@ -18,4 +18,10 @@ public class CustomerController {
         return new ResponseEntity<>(iCustomerService.createCustomer(customer), HttpStatus.CREATED);
 //        return new ResponseEntity<>(iCustomerService.createCustomer(customer), HttpStatus.BAD_GATEWAY);
     }
+
+    @GetMapping("/{id}")
+    @CrossOrigin
+    public ResponseEntity<Customer> getCustomer(@PathVariable Integer id){
+        return new ResponseEntity<>(iCustomerService.getCustomer(id), HttpStatus.OK);
+    }
 }

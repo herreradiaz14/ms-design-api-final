@@ -15,4 +15,9 @@ public class CustomerServiceImpl implements ICustomerService {
 
         return customerServiceClient.createCustomer("x", "x", customer).getBody();
     }
+
+    @Override
+    public Customer getCustomer(Integer id){
+        return customerServiceClient.getCustomer("x","x", id).getBody();
+    }
 }

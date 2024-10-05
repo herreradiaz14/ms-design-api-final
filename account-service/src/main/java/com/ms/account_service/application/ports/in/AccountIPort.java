@@ -1,7 +1,6 @@
 package com.ms.account_service.application.ports.in;
 
 import com.ms.account_service.domain.models.Account;
-import jakarta.persistence.criteria.CriteriaBuilder;
 
 import java.util.List;
 

@@ -6,6 +6,8 @@ import com.ms.account.service.server.models.AccountsDtoInner;
 import com.ms.account_service.application.ports.in.AccountIPort;
 import com.ms.account_service.domain.models.Account;
 import com.ms.account_service.infrastructure.adapters.in.rest.mappers.AccountDtoMapper;
+import com.ms.account_service.infrastructure.adapters.out.entities.Customer;
+import com.ms.account_service.infrastructure.adapters.out.rest.client.CustomerServiceClient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,11 +24,17 @@ public class AccountController implements AccountsApi {
 
     private final AccountIPort accountIPort;
     private final AccountDtoMapper accountDtoMapper;
+    private final CustomerServiceClient customerServiceClient;
 
     @Override
     public ResponseEntity<AccountDto> createAccount(String xCmClientRequestId, String xCmClientUserAgent, AccountDto accountDto) {
-        Account account = accountDtoMapper.toAccount(accountDto);
 
+        Account account = accountDtoMapper.toAccount(accountDto);
+        Integer customerId = account.getCustomerId();
+        ResponseEntity<Customer> customerResponse = customerServiceClient.getCustomer(xCmClientRequestId, xCmClientUserAgent, customerId);
+        if (customerResponse.getStatusCode() != HttpStatus.OK || customerResponse.getBody() == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
         AccountDto accountSavedDto = accountDtoMapper.toAccountDto(
                 accountIPort.createAccount(account)
         );
