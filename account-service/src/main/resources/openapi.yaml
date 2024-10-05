@@ -23,6 +23,8 @@ externalDocs:
 servers:
   - url: http://localhost:8084/api/v1
     description: service
+  - url: http://localhost:8082/api/v1
+    description: api-middleend
   - url: http://localhost:8081/api/v1
     description: api-gateway
 tags:
