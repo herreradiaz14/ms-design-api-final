@@ -51,6 +51,12 @@ paths:
           required: true
           schema:
             type: string
+        - name: x-sw-create-user
+          in: header
+          description: Audit username create record
+          required: true
+          schema:
+            type: string
       requestBody:
         description: Created customer object
         content:
@@ -138,6 +144,16 @@ components:
           enum:
             - MALE
             - FEMALE
+        createUser:
+          type: string
+          description: Audit username create record
+        createDate:
+          type: string
+          format: date-time
+          description: Audit date create record
+        active:
+          type: boolean
+          description: Audit status record
       required:
         - identification
         - firstName

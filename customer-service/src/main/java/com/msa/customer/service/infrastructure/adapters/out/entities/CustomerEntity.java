@@ -3,6 +3,7 @@ package com.msa.customer.service.infrastructure.adapters.out.entities;
 import com.msa.customer.service.infrastructure.adapters.out.enums.GenreEnumEntity;
 import jakarta.persistence.*;
 import lombok.Data;
+import java.time.OffsetDateTime;
 
 @Data
 @Entity
@@ -26,4 +27,19 @@ public class CustomerEntity {
     @Enumerated(EnumType.STRING)
     @Column(name = "ctr_genre", nullable = false)
     private GenreEnumEntity genre;
+
+    @Column(name = "ctr_create_user", nullable = true)
+    private String createUser;
+
+    @Column(name = "ctr_active")
+    private Boolean active;
+
+    @Column(name = "ctr_create_date", nullable = true)
+    private OffsetDateTime createDate;
+
+    @PrePersist
+    protected void onCreate() {
+        this.createDate = OffsetDateTime.now();
+        this.active = true;
+    }
 }

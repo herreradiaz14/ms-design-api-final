@@ -1,0 +1,27 @@
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    loadbalancer:
+      ribbon:
+        enabled: false
+    gateway:
+      locator:
+        enabled: true
+      routes:
+        - id: movement-middleend-route
+          uri: lb://MOVEMENT-MIDDLEEND
+          predicates:
+            - Path= /api/v1/movements/**
+
+eureka:
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+  client:
+    registerWithEureka: true
+    serviceUrl:
+      defaultZone: ${EUREKA_CLIENT_SERVICEURL_DEFAULTZONE:http://localhost:8056/eureka/}
+
+
+
