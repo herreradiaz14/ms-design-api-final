@@ -1,0 +1,15 @@
+server:
+  port: 8070
+
+spring:
+  application:
+    name: account-middleend
+
+eureka:
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+  client:
+    registerWithEureka: true
+    serviceUrl:
+      defaultZone: ${EUREKA_CLIENT_SERVICEURL_DEFAULTZONE:http://localhost:8056/eureka/}

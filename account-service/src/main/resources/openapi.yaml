@@ -1,0 +1,342 @@
+openapi: 3.0.3
+info:
+  title: Swagger Account - OpenAPI 3.0
+  description: |-
+    <div style="text-align: justify;">
+      <h3>Maestría en Software - Diseño de patrones de API</h3>
+
+      <img src="https://blogposgrados.ups.edu.ec/hs-fs/hubfs/Logo-Posgrados.png?width=1517&height=262&name=Logo-Posgrados.png" alt="Image" align="right" width="400"/>
+
+      <p>This is a contract to manage account data based on the OpenAPI 3.0 specification.This is a contract that uses the API First-Contract principle to standardize the creation of endpoints to be used in our service and improve the development of our APIs.</p> 
+    </div>
+  termsOfService: http://swagger.io/terms/
+  contact:
+    email: xavier5-20_lenin@hotmail.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.0 - SNAPSHOT
+externalDocs:
+  description: Historia de usuario
+  url: >-
+    https://github.com/users/AndresUPS93/projects/3/views/1?pane=issue&itemId=81452016
+servers:
+  - url: http://localhost:8084/api/v1
+    description: service
+  - url: http://localhost:8081/api/v1
+    description: api-gateway
+tags:
+  - name: account
+    description: Everything about accounts
+paths:
+  /accounts:
+    post:
+      tags:
+        - account
+      summary: Create a new account
+      description: Create a new account with an Unique ID
+      operationId: createAccount
+      parameters:
+        - name: x-sw-client-request-id
+          in: header
+          description: Unique ID for the request
+          required: true
+          schema:
+            type: string
+        - name: x-sw-client-user-agent
+          in: header
+          description: Type of device that consume Endpoint
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Created account object
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AccountDto'
+              example:
+                currencyType: DOLAR
+                customerId: 1
+      responses:
+        '201':
+          description: succesfull operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountDto'
+              example:
+                id: 1
+                currencyType: DOLAR
+                amount: 0
+                customerId: 1
+        '400':
+          description: >-
+            The server could not understand the request because of incorrect
+            syntax
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '409':
+          description: Communication error with customer service
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /accounts/{id}:
+    get:
+      tags:
+        - account
+      summary: Consult account by id
+      description: Consult account with an Unique ID
+      operationId: getAccount
+      parameters:
+        - name: x-sw-client-request-id
+          in: header
+          description: Unique ID for the request
+          required: true
+          schema:
+            type: string
+        - name: x-sw-client-user-agent
+          in: header
+          description: Type of device that consume Endpoint
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: path
+          required: true
+          description: Account id
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Account successfully obtained
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountDto'
+              example:
+                id: 1
+                currencyType: DOLAR
+                amount: 100
+                customerId: 1
+        '204':
+          description: Account not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '400':
+          description: >-
+            The server could not understand the request because of incorrect
+            syntax
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    put:
+      tags:
+        - account
+      summary: Update account by id
+      description: Update account with an Unique ID
+      operationId: updateAccount
+      parameters:
+        - name: x-sw-client-request-id
+          in: header
+          description: Unique ID for the request
+          required: true
+          schema:
+            type: string
+        - name: x-sw-client-user-agent
+          in: header
+          description: Type of device that consume Endpoint
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: path
+          required: true
+          description: Account id
+          schema:
+            type: integer
+      requestBody:
+        description: update account object
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AccountDto'
+              example:
+                amount: 150
+      responses:
+        '200':
+          description: Account successfully obtained
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountDto'
+              example:
+                id: 1
+                currencyType: DOLAR
+                amount: 250
+                customerId: 1
+        '204':
+          description: Account not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '400':
+          description: >-
+            The server could not understand the request because of incorrect
+            syntax
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /accounts/customer/{idCustomer}:
+    get:
+      tags:
+        - account
+      summary: Consult account by customer id
+      description: Consult account with an Unique customer ID
+      operationId: getAccounts
+      parameters:
+        - name: x-sw-client-request-id
+          in: header
+          description: Unique ID for the request
+          required: true
+          schema:
+            type: string
+        - name: x-sw-client-user-agent
+          in: header
+          description: Type of device that consume Endpoint
+          required: true
+          schema:
+            type: string
+        - name: idCustomer
+          in: path
+          required: true
+          description: Customer id
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Accounts successfully obtained
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountsDto'
+              example:
+                id: 1
+                currencyType: DOLAR
+                amount: 100
+                customerId: 1
+        '204':
+          description: Customer does not have accounts
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '400':
+          description: >-
+            The server could not understand the request because of incorrect
+            syntax
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    AccountDto:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        numberAccount:
+          type: string
+          maxLength: 10
+          description: >-
+            Identification may contain numbers and letters with a max length of
+            10 digits.
+        currencyType:
+          type: string
+          enum:
+            - DOLAR
+            - SOL
+        amount:
+          type: number
+          format: double
+          description: Total account amount.
+        customerId:
+          type: integer
+          format: int64
+          description: Total account amount.
+        status:
+          type: string
+          enum:
+            - ACTIVA
+            - INACTIVA
+            - CANCELADA
+        #creationDate:
+        #  type: string
+      #required:
+      #  - currencyType
+      #  - customerId
+    AccountsDto:
+      type: array
+      items:
+        properties:
+          id:
+            type: integer
+            format: int64
+          numberAccount:
+            type: string
+            maxLength: 10
+            description: >-
+              Identification may contain numbers and letters with a max length of
+              10 digits.
+          currencyType:
+            type: string
+            enum:
+              - DOLAR
+              - SOL
+          amount:
+            type: number
+            format: double
+            description: Total account amount.
+          customerId:
+            type: integer
+            format: int64
+            description: Total account amount.
+          status:
+            type: string
+            enum:
+              - ACTIVA
+              - INACTIVA
+              - CANCELADA
+          #creationDate:
+          #  type: string
+        required:
+          - currencyType
+          - customerId
+    Error:
+      type: object
+      properties:
+        title:
+          type: string
+        detail:
+          type: string
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorDetail'
+        status:
+          type: integer
+    ErrorDetail:
+      type: object
+      properties:
+        message:
+          type: string
