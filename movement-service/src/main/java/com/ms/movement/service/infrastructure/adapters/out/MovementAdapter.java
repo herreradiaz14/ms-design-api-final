@@ -9,6 +9,8 @@ import com.ms.movement.service.infrastructure.adapters.out.repositories.Movement
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 @RequiredArgsConstructor
 public class MovementAdapter implements MovementOPort {
@@ -23,6 +25,20 @@ public class MovementAdapter implements MovementOPort {
           movementRepository.save(movementEntity)
         );
         return movementSaved;
+    }
+
+    @Override
+    public List<Movement> getMovements(Integer accountId){
+
+        List<MovementEntity> movementsList = movementRepository.movementByAccountId(accountId);
+
+        if (movementsList != null && !movementsList.isEmpty()) {
+            return movementEntityMapper.toMovementList(movementsList);
+        }
+        else {
+            return null;
+        }
+
     }
 
 }
