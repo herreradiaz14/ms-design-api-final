@@ -27,7 +27,11 @@ public class AccountController {
     @GetMapping("/{id}")
     @CrossOrigin
     public ResponseEntity<Account> getAccount(@PathVariable Integer id){
-        return new ResponseEntity<>(iAccountService.getAccount(id), HttpStatus.OK);
+        Account accountEn = iAccountService.getAccount(id);
+        if(Objects.isNull(accountEn)){
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(accountEn, HttpStatus.OK);
     }
 
     @GetMapping("/customer/{idCustomer}")
