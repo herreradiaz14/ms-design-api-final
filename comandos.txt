@@ -1,0 +1,10 @@
+docker build -t account-middleend:latest .
+docker build -t account-service:latest .
+docker build -t api-gateway:latest .
+docker build -t customer-middleend:latest .
+docker build -t customer-service:latest .
+docker build -t movement-middleend:latest .
+docker build -t movement-service:latest .
+docker build -t service-registry:latest .
+
+docker-compose up -d
