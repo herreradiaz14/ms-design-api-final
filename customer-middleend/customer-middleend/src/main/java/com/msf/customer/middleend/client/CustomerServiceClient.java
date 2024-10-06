@@ -14,6 +14,7 @@ public interface CustomerServiceClient {
     @PostMapping("/api/v1/customers")
     ResponseEntity<Customer> createCustomer(@RequestHeader(value = "x-sw-client-request-id", required = true) String xCmClientRequestId,
                                           @RequestHeader(value = "x-sw-client-user-agent", required = true) String xCmClientUserAgent,
+                                          @RequestHeader(value = "x-sw-create-user", required = true) String xCmCreateUser,
                                           @RequestBody Customer customer);
 
     @GetMapping("/api/v1/customers/{id}")
