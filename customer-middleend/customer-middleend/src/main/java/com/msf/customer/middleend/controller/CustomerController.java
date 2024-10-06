@@ -6,6 +6,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Objects;
+
 @RestController
 @RequestMapping("/api/v1/customers")
 @RequiredArgsConstructor
@@ -22,6 +24,10 @@ public class CustomerController {
     @GetMapping("/{id}")
     @CrossOrigin
     public ResponseEntity<Customer> getCustomer(@PathVariable Integer id){
-        return new ResponseEntity<>(iCustomerService.getCustomer(id), HttpStatus.OK);
+        Customer customer = iCustomerService.getCustomer(id);
+        if(Objects.isNull(customer)){
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(customer, HttpStatus.OK);
     }
 }
