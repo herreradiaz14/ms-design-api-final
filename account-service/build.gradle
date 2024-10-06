@@ -71,7 +71,7 @@ dependencyManagement {
 
 tasks.register('buildSpringServer', org.openapitools.generator.gradle.plugin.tasks.GenerateTask) {
 	generatorName = "spring"
-	inputSpec = "$rootDir/src/main/resources/openapi.yaml".toString()
+	inputSpec = "$rootDir/src/main/resources/openapi-account-service.yaml".toString()
 	outputDir = "$buildDir/generated".toString()
 	apiPackage = "com.ms.account.service.server"
 	modelPackage = "com.ms.account.service.server.models"
