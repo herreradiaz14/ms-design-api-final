@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
+import org.springframework.util.CollectionUtils;
 import java.util.List;
 
 @RestController
@@ -27,6 +27,10 @@ public class MovementController {
     @GetMapping("/{accountId}")
     @CrossOrigin
     public ResponseEntity<List<Movement>> getMovements(@PathVariable Integer accountId){
-        return new ResponseEntity<>(iMovementService.getMovements(accountId), HttpStatus.OK);
+        List<Movement> movementList = iMovementService.getMovements(accountId);
+        if(CollectionUtils.isEmpty(movementList)){
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(movementList, HttpStatus.OK);
     }
 }

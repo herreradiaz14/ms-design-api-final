@@ -73,6 +73,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+        '409':
+          description: Communication error with customer service
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
   /movements/{accountId}:
     get:
       tags:
