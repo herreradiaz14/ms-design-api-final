@@ -5,9 +5,11 @@ import com.ms.account.middleend.service.IAccountService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("/api/v1/accounts")
@@ -31,12 +33,22 @@ public class AccountController {
     @GetMapping("/customer/{idCustomer}")
     @CrossOrigin
     public ResponseEntity<List<Account>> getAccounts(@PathVariable Integer idCustomer){
-        return new ResponseEntity<>(iAccountService.getAccounts(idCustomer), HttpStatus.OK);
+        List<Account> accountList = iAccountService.getAccounts(idCustomer);
+        if(CollectionUtils.isEmpty(accountList)){
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+
+        return new ResponseEntity<>(accountList, HttpStatus.OK);
     }
 
     @PutMapping("/{id}")
     @CrossOrigin
     public ResponseEntity<Account> updateAccount(@PathVariable Integer id, @RequestBody Account account){
-        return new ResponseEntity<>(iAccountService.updateAccount(id, account), HttpStatus.OK);
+        Account accountEn = iAccountService.updateAccount(id, account);
+        if(Objects.isNull(accountEn)){
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+
+        return new ResponseEntity<>(accountEn, HttpStatus.OK);
     }
 }
